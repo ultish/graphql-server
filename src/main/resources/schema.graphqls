@@ -1,3 +1,41 @@
+type ChargeCode {
+    id: ID!
+    name: String!
+    code: String!
+    description: String
+    expired: Boolean!
+}
+
+type TrackedTask {
+    id: ID!
+    notes: String
+    chargeCodes: [ChargeCode!]
+    #    timeBlocks: [TimeBlock!]
+    createdAt: Float!
+    overtimeEnabled: Boolean!
+}
+
+
 type Query {
     hello: String!
+    chargeCodes: [ChargeCode]!
+    trackedTasks: [TrackedTask]!
+}
+
+type Mutation {
+    updateChargeCode(
+        id: ID!
+        name: String
+        code: String
+        expired: Boolean
+        description: String
+    ): ChargeCode!
+
+    updateTrackedTask(
+        id: ID!
+        notes: String
+        chargeCodeIds: [ID]
+    ): TrackedTask!
+
+    createTrackedTask(chargeCodeIds: [ID]): TrackedTask!
 }

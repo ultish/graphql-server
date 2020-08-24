@@ -1,41 +1,59 @@
 package xw.graphqlserver.configs;
 
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.hibernate.boot.model.naming.PhysicalNamingStrategy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-
-import javax.sql.DataSource;
 
 @Configuration
 @EnableTransactionManagement
 public class DataSourceConfig {
 
+    /**
+     * Customise the physical naming strategy to use for Hibernate.
+     *
+     * @return
+     */
     @Bean
-    public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUsername("postgres");
-        dataSource.setPassword("password");
-        dataSource.setUrl(
-            "jdbc:postgresql://localhost:5432/jikanganai");
-        return dataSource;
+    public PhysicalNamingStrategy physical() {
+        return new CamelCasePhysicalNamingStrategy();
     }
 
-    @Bean
-    @Autowired
-    public HibernateTransactionManager transactionManager(
-        SessionFactory sessionFactory
-    ) {
+    //    @Autowired
+    //    private EntityManagerFactory entityManagerFactory;
+    //
+    //    @Bean
+    //    public SessionFactory getSessionFactory() {
+    //        if (entityManagerFactory.unwrap(SessionFactory.class) == null) {
+    //            throw new NullPointerException("factory is not a hibernate " +
+    //                "factory");
+    //        }
+    //        return entityManagerFactory.unwrap(SessionFactory.class);
+    //    }
+    //
+    //    @Bean
+    //    public DataSource dataSource() {
+    //        DriverManagerDataSource dataSource = new
+    //        DriverManagerDataSource();
+    //        dataSource.setDriverClassName("org.postgresql.Driver");
+    //        dataSource.setUsername("postgres");
+    //        dataSource.setPassword("password");
+    //        dataSource.setUrl(
+    //            "jdbc:postgresql://localhost:5432/jikanganai");
+    //        return dataSource;
+    //    }
 
-        HibernateTransactionManager txManager
-            = new HibernateTransactionManager();
-        txManager.setSessionFactory(sessionFactory);
-
-        return txManager;
-    }
+    //    @Bean
+    //    @Autowired
+    //    public HibernateTransactionManager transactionManager(
+    //        SessionFactory sessionFactory
+    //    ) {
+    //
+    //        HibernateTransactionManager txManager
+    //            = new HibernateTransactionManager();
+    //        txManager.setSessionFactory(sessionFactory);
+    //
+    //        return txManager;
+    //    }
 }
 
