@@ -14,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+//@Audited
 @Table(name = "trackedtasks")
 public class TrackedTask {
     @Id

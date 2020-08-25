@@ -26,7 +26,6 @@ public class TrackedTaskDAO {
 
     public List<TrackedTask> findAll() {
         return em.createQuery("select tt from TrackedTask tt").getResultList();
-
     }
 
     public TrackedTask save(@NotNull TrackedTask tt) {

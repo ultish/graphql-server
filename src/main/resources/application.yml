@@ -1,8 +1,8 @@
 logging:
   level:
     root: INFO
-    org.hibernate.SQL: DEBUG
-    org.hibernate.type: TRACE
+#    org.hibernate.SQL: DEBUG
+#    org.hibernate.type: TRACE
 
 spring:
   datasource:

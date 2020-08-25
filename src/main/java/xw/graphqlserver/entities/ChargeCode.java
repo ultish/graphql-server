@@ -13,8 +13,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+//@Audited
 @Table(name = "chargecodes")
-public class ChargeCode {
+public class ChargeCode extends AbstractAudited {
     @Id
     @GeneratedValue(generator = "cc-sequence-generator")
     @GenericGenerator(name = "cc-sequence-generator",
@@ -34,6 +35,7 @@ public class ChargeCode {
     private boolean expired;
     private Date createdAt;
     private Date updatedAt;
+
     @ManyToMany(mappedBy = "chargeCodes")
     private List<TrackedTask> trackedTasks;
 }
