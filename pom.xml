@@ -25,7 +25,7 @@
         <kotlin.version>1.3.70</kotlin.version>
         <spring-boot.version>2.3.3.RELEASE</spring-boot.version>
         <graphql.version>7.1.0</graphql.version>
-        <spring-kafka.version>1.3.11.RELEASE</spring-kafka.version>
+        <spring-kafka.version>2.5.5.RELEASE</spring-kafka.version>
     </properties>
 
     <dependencies>

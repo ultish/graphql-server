@@ -4,6 +4,10 @@ logging:
 #    org.hibernate.SQL: DEBUG
 #    org.hibernate.type: TRACE
 
+kafka:
+  bootstrapAddress: "http://192.168.1.111:9092"
+  topic: "datastream"
+
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/jikanganai
