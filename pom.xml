@@ -3,39 +3,19 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <!--	<parent>-->
-    <!--		<groupId>org.springframework.boot</groupId>-->
-    <!--		<artifactId>spring-boot-starter-parent</artifactId>-->
-    <!--		<version>2.3.3.RELEASE</version>-->
-    <!--		<relativePath/> &lt;!&ndash; lookup parent from repository &ndash;&gt;-->
-    <!--	</parent>-->
+
     <groupId>xw</groupId>
     <artifactId>graphql-server</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <name>graphql-server</name>
     <description>graphql server</description>
 
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <!-- https://www.javatpoint.com/spring-boot-starter-parent -->
-                <!-- Import dependency management from Spring Boot -->
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring-boot.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
-    <!--    <parent>-->
-    <!--        &lt;!&ndash; Your own application should inherit from spring-boot-starter-parent &ndash;&gt;-->
-    <!--        <groupId>org.springframework.boot</groupId>-->
-    <!--        <artifactId>spring-boot-starter-parent</artifactId>-->
-    <!--        <version>2.3.3.RELEASE</version>-->
-    <!--    </parent>-->
+    <parent>
+        <!-- Your own application should inherit from spring-boot-starter-parent -->
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.3.3.RELEASE</version>
+    </parent>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -45,9 +25,17 @@
         <kotlin.version>1.3.70</kotlin.version>
         <spring-boot.version>2.3.3.RELEASE</spring-boot.version>
         <graphql.version>7.1.0</graphql.version>
+        <spring-kafka.version>1.3.11.RELEASE</spring-kafka.version>
     </properties>
 
     <dependencies>
+        <!-- kafka -->
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+            <version>${spring-kafka.version}</version>
+        </dependency>
+
         <!-- graphql -->
         <dependency>
             <groupId>com.graphql-java-kickstart</groupId>
@@ -82,11 +70,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        <!-- Hibernate -->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-envers</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -112,15 +95,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring-boot.version}</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>8</source>
-                    <target>8</target>
-                </configuration>
             </plugin>
         </plugins>
     </build>
