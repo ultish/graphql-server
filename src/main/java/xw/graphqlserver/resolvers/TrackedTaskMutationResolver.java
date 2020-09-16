@@ -1,7 +1,6 @@
 package xw.graphqlserver.resolvers;
 
 import graphql.GraphQLException;
-import graphql.kickstart.tools.GraphQLMutationResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +14,8 @@ import java.util.stream.Collectors;
 
 @Component
 @Transactional
-public class TrackedTaskMutationResolver implements GraphQLMutationResolver {
+public class TrackedTaskMutationResolver /*implements GraphQLMutationResolver
+ */ {
 
     @Autowired
     TrackedTaskDAO trackedTaskDAO;

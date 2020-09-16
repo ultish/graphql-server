@@ -6,36 +6,36 @@ type ChargeCode {
     expired: Boolean!
 }
 
-type TrackedTask {
-    id: ID!
-    notes: String
-    chargeCodes: [ChargeCode!]
-    #    timeBlocks: [TimeBlock!]
-    createdAt: Float!
-    overtimeEnabled: Boolean!
-}
-
-
+#type TrackedTask {
+#    id: ID!
+#    notes: String
+#    chargeCodes: [ChargeCode!] @relation(name:"CHARGED")
+#    #    timeBlocks: [TimeBlock!]
+#    createdAt: Float!
+#    overtimeEnabled: Boolean!
+#}
+#
+#
 type Query {
-    hello: String!
+    #    hello: String!
     chargeCodes: [ChargeCode]!
-    trackedTasks: [TrackedTask]!
+    #    trackedTasks: [TrackedTask]!
 }
-
-type Mutation {
-    updateChargeCode(
-        id: ID!
-        name: String
-        code: String
-        expired: Boolean
-        description: String
-    ): ChargeCode!
-
-    updateTrackedTask(
-        id: ID!
-        notes: String
-        chargeCodeIds: [ID]
-    ): TrackedTask!
-
-    createTrackedTask(chargeCodeIds: [ID]): TrackedTask!
-}
+#
+#type Mutation {
+#    updateChargeCode(
+#        id: ID!
+#        name: String
+#        code: String
+#        expired: Boolean
+#        description: String
+#    ): ChargeCode!
+#
+#    updateTrackedTask(
+#        id: ID!
+#        notes: String
+#        chargeCodeIds: [ID]
+#    ): TrackedTask!
+#
+#    createTrackedTask(chargeCodeIds: [ID]): TrackedTask!
+#}

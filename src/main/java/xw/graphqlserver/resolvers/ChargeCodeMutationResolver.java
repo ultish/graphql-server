@@ -1,7 +1,6 @@
 package xw.graphqlserver.resolvers;
 
 import graphql.GraphQLException;
-import graphql.kickstart.tools.GraphQLMutationResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,7 +9,8 @@ import xw.graphqlserver.entities.ChargeCode;
 
 @Component
 @Transactional
-public class ChargeCodeMutationResolver implements GraphQLMutationResolver {
+public class ChargeCodeMutationResolver /*implements GraphQLMutationResolver
+*/ {
 
     @Autowired
     ChargeCodeDAO chargeCodeDAO;
