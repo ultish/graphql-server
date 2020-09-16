@@ -43,22 +43,24 @@
 
 
         <!-- graphql -->
-        <dependency>
-            <groupId>com.graphql-java</groupId>
-            <artifactId>graphql-java-spring-boot-starter-webmvc</artifactId>
-            <version>2.0</version>
-        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>com.graphql-java</groupId>-->
+        <!--            <artifactId>graphql-java-spring-boot-starter-webmvc</artifactId>-->
+        <!--            <version>2.0</version>-->
+        <!--        </dependency>-->
         <!--        <dependency>-->
         <!--            <groupId>com.graphql-java-kickstart</groupId>-->
         <!--            <artifactId>graphql-spring-boot-starter</artifactId>-->
         <!--            <version>${graphql.version}</version>-->
         <!--            &lt;!&ndash;            <scope>test</scope>&ndash;&gt;-->
         <!--        </dependency>-->
-        <dependency>
-            <groupId>com.graphql-java</groupId>
-            <artifactId>graphql-java</artifactId>
-            <version>15.0</version>
-        </dependency>
+
+        <!-- imported by neo4j-graphql-java -->
+        <!--        <dependency>-->
+        <!--            <groupId>com.graphql-java</groupId>-->
+        <!--            <artifactId>graphql-java</artifactId>-->
+        <!--            <version>15.0</version>-->
+        <!--        </dependency>-->
 
         <dependency>
             <groupId>com.google.guava</groupId>

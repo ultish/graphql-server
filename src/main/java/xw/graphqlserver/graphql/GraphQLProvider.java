@@ -10,7 +10,6 @@ import graphql.schema.idl.TypeDefinitionRegistry;
 import kotlin.text.Charsets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
 import xw.graphqlserver.resolvers.ChargeCodeQueryResolver;
 
 import javax.annotation.PostConstruct;
@@ -19,7 +18,8 @@ import java.net.URL;
 
 import static graphql.schema.idl.TypeRuntimeWiring.newTypeWiring;
 
-@Component
+// See GraphQLConfig instead
+//@Component
 public class GraphQLProvider {
 
     private GraphQL graphQL;

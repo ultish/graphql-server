@@ -1,7 +1,7 @@
 logging:
   level:
     root: INFO
-    org.springframework: DEBUG
+    org.springframework: INFO
 #    org.hibernate.SQL: DEBUG
 #    org.hibernate.type: TRACE
 
