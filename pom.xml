@@ -36,12 +36,26 @@
             <version>${spring-kafka.version}</version>
         </dependency>
 
+
         <!-- graphql -->
         <dependency>
             <groupId>com.graphql-java-kickstart</groupId>
             <artifactId>graphql-spring-boot-starter</artifactId>
             <version>${graphql.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.graphql-java</groupId>
+            <artifactId>graphql-java</artifactId>
+            <version>14.1</version>
+        </dependency>
+
+        <!-- neo4j -->
+        <dependency>
+            <groupId>org.neo4j</groupId>
+            <artifactId>neo4j-graphql-java</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
         <!-- optional -->
         <dependency>
             <groupId>com.graphql-java-kickstart</groupId>
