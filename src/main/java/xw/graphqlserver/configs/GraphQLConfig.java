@@ -35,14 +35,6 @@ public class GraphQLConfig {
         schema = Resources.toString(url, UTF_8);
     }
 
-    @Bean
-    Translator translator() {
-        Translator translator =
-            new Translator(SchemaBuilder.buildSchema(schema));
-
-        return translator;
-    }
-
     @Bean("graphql-driver")
     Driver driver() {
         Config config = Config.builder().withLogging(Logging.slf4j()).build();
@@ -54,7 +46,18 @@ public class GraphQLConfig {
     }
 
     @Bean
+    Translator translator() {
+        Translator translator =
+            new Translator(SchemaBuilder.buildSchema(schema));
+
+        return translator;
+    }
+
+    @Bean
     GraphQL graphQL() {
+        //        GraphQLSchema graphQLSchema = SchemaBuilder.buildSchema
+        //        (schema);
+
         GraphQLSchema graphQLSchema = buildSchema();
         return GraphQL.newGraphQL(graphQLSchema).build();
     }
@@ -103,7 +106,6 @@ public class GraphQLConfig {
 
         GraphQLSchema neoGeneratedGraphQLSchema = SchemaBuilder.buildSchema(
             schema, config);
-        //        config.getMutation().
 
         //        Map<String, DataFetcher> queryDataFetchers = new HashMap<>();
         //        for (GraphQLType queryType : neoGeneratedGraphQLSchema
@@ -114,6 +116,11 @@ public class GraphQLConfig {
         //                cypherQueryDataFetcher
         //            );
         //        }
+        //
+        //        // TODO this is mutation datafetcher for graphql-java 12.
+        //         this works
+        //        //  for mutations. The updated one for graphql-java 15 does
+        //        NOT
         //        Map<String, DataFetcher> mutationDataFetchers = new
         //            HashMap<>();
         //        for (GraphQLType mutationType :
@@ -135,8 +142,9 @@ public class GraphQLConfig {
                         (x -> cypherQueryDataFetcher)
                     ));
 
+        //         TODO This aint working!
         Map<String, DataFetcher<?>> mutationDataFetchers =
-            neoGeneratedGraphQLSchema.getQueryType()
+            neoGeneratedGraphQLSchema.getMutationType()
                 .getFieldDefinitions()
                 .stream()
                 .collect(Collectors.toMap(
@@ -152,7 +160,6 @@ public class GraphQLConfig {
                     FieldCoordinates.coordinates("Hunt", "name"),
                     huntNameDataFetcher()
                 )
-
                 .build();
 
         return GraphQLSchema.newSchema(neoGeneratedGraphQLSchema)
