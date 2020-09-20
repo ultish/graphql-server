@@ -7,9 +7,9 @@ type ChargeCode {
 }
 
 type TrackedTask {
-    id: ID!
+    id: ID
     #    notes: String
-    chargeCodes: [ChargeCode!] @relation(name:"CHARGED")
+    chargeCodes: [ChargeCode] @relation(name:"CHARGED")
     #    #    timeBlocks: [TimeBlock!]
     #    createdAt: Float!
     #    overtimeEnabled: Boolean!
@@ -19,7 +19,7 @@ type TrackedTask {
 type Query {
     #    hello: String!
     chargeCodes: [ChargeCode]!
-    trackedTasks: [TrackedTask]!
+    trackedTasks: [TrackedTask]
 }
 #
 #type Mutation {

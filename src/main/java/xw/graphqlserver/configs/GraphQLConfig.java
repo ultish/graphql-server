@@ -14,8 +14,8 @@ import xw.graphqlserver.neo4j.CypherDataFetcher;
 
 import javax.annotation.PostConstruct;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -23,7 +23,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 public class GraphQLConfig {
 
     @Autowired
-    CypherDataFetcher cypherQueryDataFetcher;
+    private CypherDataFetcher cypherQueryDataFetcher;
     private String schema;
 
     @SneakyThrows
@@ -87,22 +87,44 @@ public class GraphQLConfig {
         GraphQLSchema neoGeneratedGraphQLSchema = SchemaBuilder.buildSchema(
             schema);
 
-        Map<String, DataFetcher> queryDataFetchers = new HashMap<>();
+        //        Map<String, DataFetcher> queryDataFetchers = new HashMap<>();
+        //        for (GraphQLType queryType : neoGeneratedGraphQLSchema
+        //            .getQueryType()
+        //            .getChildren()) {
+        //            queryDataFetchers.put(
+        //                queryType.getName(),
+        //                cypherQueryDataFetcher
+        //            );
+        //        }
+        //        Map<String, DataFetcher> mutationDataFetchers = new
+        //        HashMap<>();
+        //        for (GraphQLType mutationType :
+        //            neoGeneratedGraphQLSchema.getMutationType()
+        //                .getChildren()) {
+        //            mutationDataFetchers.put(
+        //                mutationType.getName(),
+        //                cypherQueryDataFetcher
+        //            );
+        //        }
 
-        for (GraphQLType queryType : neoGeneratedGraphQLSchema.getQueryType()
-            .getChildren()) {
-            queryDataFetchers.put(queryType.getName(), cypherQueryDataFetcher);
-        }
+        Map<String, DataFetcher<?>> queryDataFetchers =
+            neoGeneratedGraphQLSchema.getQueryType()
+                .getFieldDefinitions()
+                .stream()
+                .collect(
+                    Collectors.toMap(
+                        GraphQLFieldDefinition::getName,
+                        (x -> cypherQueryDataFetcher)
+                    ));
 
-        Map<String, DataFetcher> mutationDataFetchers = new HashMap<>();
-        for (GraphQLType mutationType :
-            neoGeneratedGraphQLSchema.getMutationType()
-                .getChildren()) {
-            mutationDataFetchers.put(
-                mutationType.getName(),
-                cypherQueryDataFetcher
-            );
-        }
+        Map<String, DataFetcher<?>> mutationDataFetchers =
+            neoGeneratedGraphQLSchema.getQueryType()
+                .getFieldDefinitions()
+                .stream()
+                .collect(Collectors.toMap(
+                    GraphQLFieldDefinition::getName,
+                    (x) -> cypherQueryDataFetcher
+                ));
 
         GraphQLCodeRegistry customCodeRegistry =
             GraphQLCodeRegistry.newCodeRegistry(neoGeneratedGraphQLSchema.getCodeRegistry())

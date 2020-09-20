@@ -87,6 +87,40 @@ public class CypherDataFetcher implements DataFetcher<Object> {
     Object extractResultData(Result result, Cypher query) {
         ResultType resultType = getResultType(query.getType());
 
+        GraphQLType typeCheck = query.getType();
+        if (query.getType() instanceof GraphQLNonNull) {
+            typeCheck = ((GraphQLNonNull) query.getType()).getWrappedType();
+        }
+
+        boolean isList = typeCheck instanceof GraphQLList;
+        boolean isSingle = typeCheck instanceof GraphQLObjectType;
+
+        //        if (!result.hasNext()) {
+        //            return isList ? Collections.emptyList() : Collections
+        //            .emptyMap();
+        //        } else if (isSingle) {
+        //            // this generates key/value pairs for the 1st object in
+        //            the
+        //            // result set
+        //            return result.single()
+        //                .asMap()
+        //                .entrySet()
+        //                .stream()
+        //                .findFirst()
+        //                .orElseThrow(() -> new RuntimeException("nope"))
+        //                .getValue();
+        //        } else if (isList) {
+        //            List<Object> collect = result.stream()
+        //                .map(x -> x.asMap())
+        //                .map(Map::entrySet)
+        //                .map(x -> x.stream().findFirst())
+        //                .filter(x -> x.isPresent())
+        //                .map(x -> x.get().getValue())
+        //                .collect(Collectors.toList());
+        //
+        //            return collect;
+        //        }
+
         // Case 1: The result set is empty, so we need to return an empty
         // object (list or map) depending on the result
         // type of the query being executed.
@@ -159,8 +193,11 @@ public class CypherDataFetcher implements DataFetcher<Object> {
             return ResultType.LIST;
         } else if (type instanceof GraphQLObjectType) {
             return ResultType.SINGLE;
+        } else if (type instanceof GraphQLNonNull) {
+            return getResultType(((GraphQLNonNull) type).getWrappedType());
         } else {
-            return getResultType(type.getChildren().get(0));
+            // not really sure if this is correct
+            return ResultType.SINGLE;
         }
     }
 

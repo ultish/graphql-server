@@ -29,75 +29,43 @@
     </properties>
 
     <dependencies>
-        <!-- kafka -->
+        <!-- spring kafka -->
         <dependency>
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka</artifactId>
             <version>${spring-kafka.version}</version>
         </dependency>
-        <!-- neo4j -->
+        <!-- spring neo4j-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-neo4j</artifactId>
         </dependency>
 
-
-        <!-- graphql -->
-        <!--        <dependency>-->
-        <!--            <groupId>com.graphql-java</groupId>-->
-        <!--            <artifactId>graphql-java-spring-boot-starter-webmvc</artifactId>-->
-        <!--            <version>2.0</version>-->
-        <!--        </dependency>-->
-        <!--        <dependency>-->
-        <!--            <groupId>com.graphql-java-kickstart</groupId>-->
-        <!--            <artifactId>graphql-spring-boot-starter</artifactId>-->
-        <!--            <version>${graphql.version}</version>-->
-        <!--            &lt;!&ndash;            <scope>test</scope>&ndash;&gt;-->
-        <!--        </dependency>-->
-
-        <!-- imported by neo4j-graphql-java -->
-        <!--        <dependency>-->
-        <!--            <groupId>com.graphql-java</groupId>-->
-        <!--            <artifactId>graphql-java</artifactId>-->
-        <!--            <version>15.0</version>-->
-        <!--        </dependency>-->
-
+        <!-- neo4j -->
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>16.0.1</version>
         </dependency>
-
         <dependency>
             <groupId>org.neo4j</groupId>
             <artifactId>neo4j-graphql-java</artifactId>
-            <version>1.0.1</version>
+            <version>1.1.0</version>
         </dependency>
 
         <!-- optional -->
-        <!--        <dependency>-->
-        <!--            <groupId>com.graphql-java-kickstart</groupId>-->
-        <!--            <artifactId>graphiql-spring-boot-starter</artifactId>-->
-        <!--            <version>${graphql.version}</version>-->
-        <!--        </dependency>-->
-        <!--        <dependency>-->
-        <!--            <groupId>com.graphql-java-kickstart</groupId>-->
-        <!--            <artifactId>voyager-spring-boot-starter</artifactId>-->
-        <!--            <version>${graphql.version}</version>-->
-        <!--        </dependency>-->
-
-
-        <!-- postgresql -->
         <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>42.2.16</version>
+            <groupId>com.graphql-java-kickstart</groupId>
+            <artifactId>graphiql-spring-boot-starter</artifactId>
+            <version>${graphql.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.graphql-java-kickstart</groupId>
+            <artifactId>voyager-spring-boot-starter</artifactId>
+            <version>${graphql.version}</version>
+        </dependency>
+
         <!-- spring -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
