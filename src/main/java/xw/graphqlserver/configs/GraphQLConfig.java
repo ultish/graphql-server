@@ -6,6 +6,7 @@ import graphql.schema.*;
 import lombok.SneakyThrows;
 import org.neo4j.driver.*;
 import org.neo4j.graphql.SchemaBuilder;
+import org.neo4j.graphql.SchemaConfig;
 import org.neo4j.graphql.Translator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +15,7 @@ import xw.graphqlserver.neo4j.CypherDataFetcher;
 
 import javax.annotation.PostConstruct;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -35,7 +37,10 @@ public class GraphQLConfig {
 
     @Bean
     Translator translator() {
-        return new Translator(SchemaBuilder.buildSchema(schema));
+        Translator translator =
+            new Translator(SchemaBuilder.buildSchema(schema));
+
+        return translator;
     }
 
     @Bean("graphql-driver")
@@ -84,8 +89,21 @@ public class GraphQLConfig {
      * the schema.
      */
     private GraphQLSchema buildSchema() {
+
+        // control what is generated
+        SchemaConfig config =
+            new SchemaConfig(
+                new SchemaConfig.CRUDConfig(true, Arrays.asList(
+                )),
+                new SchemaConfig.CRUDConfig(
+                    true,
+                    Arrays.asList()
+                )
+            );
+
         GraphQLSchema neoGeneratedGraphQLSchema = SchemaBuilder.buildSchema(
-            schema);
+            schema, config);
+        //        config.getMutation().
 
         //        Map<String, DataFetcher> queryDataFetchers = new HashMap<>();
         //        for (GraphQLType queryType : neoGeneratedGraphQLSchema
@@ -97,7 +115,7 @@ public class GraphQLConfig {
         //            );
         //        }
         //        Map<String, DataFetcher> mutationDataFetchers = new
-        //        HashMap<>();
+        //            HashMap<>();
         //        for (GraphQLType mutationType :
         //            neoGeneratedGraphQLSchema.getMutationType()
         //                .getChildren()) {
@@ -134,6 +152,7 @@ public class GraphQLConfig {
                     FieldCoordinates.coordinates("Hunt", "name"),
                     huntNameDataFetcher()
                 )
+
                 .build();
 
         return GraphQLSchema.newSchema(neoGeneratedGraphQLSchema)

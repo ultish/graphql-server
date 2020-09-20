@@ -1,26 +1,27 @@
 type ChargeCode {
     id: ID!
     name: String!
-    code: String!
+    code: String
     description: String
-    expired: Boolean!
+    expired: Boolean
 }
 
 type TrackedTask {
     id: ID
-    #    notes: String
+    notes: String
     chargeCodes: [ChargeCode] @relation(name:"CHARGED")
     #    #    timeBlocks: [TimeBlock!]
-    #    createdAt: Float!
-    #    overtimeEnabled: Boolean!
+    createdAt: Float
+    overtimeEnabled: Boolean
 }
+
 #
 #
-type Query {
-    #    hello: String!
-    chargeCodes: [ChargeCode]!
-    trackedTasks: [TrackedTask]
-}
+#type Query {
+#    chargeCodes: [ChargeCode]!
+#    trackedTasks: [TrackedTask]
+#}
+
 #
 #type Mutation {
 #    updateChargeCode(

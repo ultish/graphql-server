@@ -1,7 +1,9 @@
 package xw.graphqlserver.controller;
 
 import graphql.ExecutionInput;
+import graphql.ExecutionResult;
 import graphql.GraphQL;
+import graphql.GraphQLError;
 import lombok.SneakyThrows;
 import org.neo4j.driver.Driver;
 import org.neo4j.graphql.Cypher;
@@ -123,7 +125,17 @@ public class GraphQLController {
                 .context(context);
 
         Map<String, Object> result = new HashMap<>();
-        result.put("data", graphQL.execute(input).getData());
+
+        ExecutionResult executionResult = graphQL.execute(input);
+
+        if (!executionResult.getErrors().isEmpty()) {
+            // TODO generate graphQL error using this data
+            for (GraphQLError error : executionResult.getErrors()) {
+                System.err.println(error.getMessage());
+            }
+        }
+
+        result.put("data", executionResult.getData());
         return result;
     }
 
