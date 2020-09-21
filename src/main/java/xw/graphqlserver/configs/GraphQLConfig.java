@@ -96,8 +96,10 @@ public class GraphQLConfig {
         // control what is generated
         SchemaConfig config =
             new SchemaConfig(
+                // query config
                 new SchemaConfig.CRUDConfig(true, Arrays.asList(
                 )),
+                // mutation config
                 new SchemaConfig.CRUDConfig(
                     true,
                     Arrays.asList()
@@ -106,31 +108,6 @@ public class GraphQLConfig {
 
         GraphQLSchema neoGeneratedGraphQLSchema = SchemaBuilder.buildSchema(
             schema, config);
-
-        //        Map<String, DataFetcher> queryDataFetchers = new HashMap<>();
-        //        for (GraphQLType queryType : neoGeneratedGraphQLSchema
-        //            .getQueryType()
-        //            .getChildren()) {
-        //            queryDataFetchers.put(
-        //                queryType.getName(),
-        //                cypherQueryDataFetcher
-        //            );
-        //        }
-        //
-        //        // TODO this is mutation datafetcher for graphql-java 12.
-        //         this works
-        //        //  for mutations. The updated one for graphql-java 15 does
-        //        NOT
-        //        Map<String, DataFetcher> mutationDataFetchers = new
-        //            HashMap<>();
-        //        for (GraphQLType mutationType :
-        //            neoGeneratedGraphQLSchema.getMutationType()
-        //                .getChildren()) {
-        //            mutationDataFetchers.put(
-        //                mutationType.getName(),
-        //                cypherQueryDataFetcher
-        //            );
-        //        }
 
         Map<String, DataFetcher<?>> queryDataFetchers =
             neoGeneratedGraphQLSchema.getQueryType()
@@ -142,7 +119,6 @@ public class GraphQLConfig {
                         (x -> cypherQueryDataFetcher)
                     ));
 
-        //         TODO This aint working!
         Map<String, DataFetcher<?>> mutationDataFetchers =
             neoGeneratedGraphQLSchema.getMutationType()
                 .getFieldDefinitions()
