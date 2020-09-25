@@ -10,10 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Data fetcher that resolves a property by generating a cypher query using
@@ -95,56 +96,12 @@ public class CypherDataFetcher implements DataFetcher<Object> {
         boolean isList = typeCheck instanceof GraphQLList;
         boolean isSingle = typeCheck instanceof GraphQLObjectType;
 
-        //        if (!result.hasNext()) {
-        //            return isList ? Collections.emptyList() : Collections
-        //            .emptyMap();
-        //        } else if (isSingle) {
-        //            // this generates key/value pairs for the 1st object in
-        //            the
-        //            // result set
-        //            return result.single()
-        //                .asMap()
-        //                .entrySet()
-        //                .stream()
-        //                .findFirst()
-        //                .orElseThrow(() -> new RuntimeException("nope"))
-        //                .getValue();
-        //        } else if (isList) {
-        //            List<Object> collect = result.stream()
-        //                .map(x -> x.asMap())
-        //                .map(Map::entrySet)
-        //                .map(x -> x.stream().findFirst())
-        //                .filter(x -> x.isPresent())
-        //                .map(x -> x.get().getValue())
-        //                .collect(Collectors.toList());
-        //
-        //            return collect;
-        //        }
-
-        // Case 1: The result set is empty, so we need to return an empty
-        // object (list or map) depending on the result
-        // type of the query being executed.
         if (!result.hasNext()) {
-            if (resultType == ResultType.LIST) {
-                return new ArrayList<>();
-            } else {
-                return new HashMap<>();
-            }
-        }
-        // Case 2: The result set is not empty and the result type is a
-        // single object. Return that object.
-        else if (resultType == ResultType.SINGLE) {
-            // Sorry this line got a bit crazy. At the moment I'm not seeing
-            // a simpler way... The cypher query returns the
-            // values mapped to the key of their property name (the same
-            // thing as the data fetcher's segment path). But as
-            // the graphql-java framework isn't expecting DataFetchers to
-            // return the object mapped by its property name, it's
-            // expect to get the object and map it to the property name
-            // itself, so we awkwardly have to reach into the query's
-            // result map - it is fair to assume a map with only one property
-            // because that is what the query will produce -
-            // and return just the value.
+            return isList ? Collections.emptyList() : Collections
+                .emptyMap();
+        } else if (isSingle) {
+            // this generates key/value pairs for the 1st object in
+            // the result set
             return result.single()
                 .asMap()
                 .entrySet()
@@ -152,28 +109,18 @@ public class CypherDataFetcher implements DataFetcher<Object> {
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("nope"))
                 .getValue();
-        } else if (resultType == ResultType.LIST) {
-            List<Object> resultList = new ArrayList<>();
-            while (result.hasNext()) {
-                Map<String, Object> currentMap = result.next().asMap();
-                // All non-empty responses will be a map with a single key.
-                // When there are multiple results each call
-                // to result.next().asMap() will produce a map with the same
-                // key name mapped to a different object. We just need
-                // the values for each result in a list so we just pull the
-                // one value out of each result to add to our
-                // resultList.
+        } else if (isList) {
+            List<Object> collect = result.stream()
+                .map(x -> x.asMap())
+                .map(Map::entrySet)
+                .map(x -> x.stream().findFirst())
+                .filter(x -> x.isPresent())
+                .map(x -> x.get().getValue())
+                .collect(Collectors.toList());
 
-                resultList.add(currentMap.entrySet()
-                    .stream()
-                    .findFirst()
-                    .orElseThrow(() -> new RuntimeException("nope"))
-                    .getValue());
-            }
-            return resultList;
+            return collect;
         } else {
-            // Not sure how/why this would ever happen. See the comment below
-            // in getResultType.
+            // TODO return error?
             return null;
         }
     }

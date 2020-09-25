@@ -1,3 +1,7 @@
+# custom directives
+# directives from neo4j-graphql-java
+#directive @relation(name: String) on FIELD_DEFINITION
+
 type ChargeCode {
     id: ID!
     name: String!
@@ -7,20 +11,25 @@ type ChargeCode {
 }
 
 type TrackedTask {
-    id: ID
+    id: ID!
     notes: String
     chargeCodes: [ChargeCode] @relation(name:"CHARGED")
-    #    #    timeBlocks: [TimeBlock!]
+    timeBlocks: [TimeBlock!] @relation(name:"SPENT")
     createdAt: Float
     overtimeEnabled: Boolean
 }
 
+type TimeBlock {
+    id: ID!
+    startDate: Float
+    trackedTask: TrackedTask
+}
 #
 #
-#type Query {
-#    chargeCodes: [ChargeCode]!
-#    trackedTasks: [TrackedTask]
-#}
+type Query {
+    #    chargeCodes: [ChargeCode]!
+    #    trackedTasks: [TrackedTask]
+}
 
 #
 #type Mutation {

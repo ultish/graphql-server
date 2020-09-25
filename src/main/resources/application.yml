@@ -13,20 +13,14 @@ kafka:
 graphql:
   url: "graphql"
 
+neo4j:
+  properties:
+    url: "neo4j://localhost:7687"
+    username: neo4j
+    password: test
+
 spring:
   data:
     neo4j:
       username: neo4j
       password: test
-#  datasource:
-#    url: jdbc:postgresql://localhost:5432/jikanganai
-#    driver: org.postgresql.Driver
-#    username: postgres
-#    password: password
-#    name: jikanganai
-#  jpa:
-#    properties:
-#      hibernate:
-#        enable_lazy_load_no_trans: true
-#        show_sql: true
-#        format_sql: true
