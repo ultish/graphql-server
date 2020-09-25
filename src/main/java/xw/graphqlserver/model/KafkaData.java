@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+// Taken from legacy-server
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

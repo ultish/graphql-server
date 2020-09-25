@@ -54,9 +54,6 @@ public class KafkaConsumer {
                     Map<String, Object> relData =
                         relMap.get(entry.getKey());
                     String destination = relData.get("destination").toString();
-                    //                    System.out.println("To: " +
-                    //                    destination + ": " + entry
-                    //                        .getValue());
 
                     if (entry.getValue() instanceof Collection) {
                         Collection<Object> col = (Collection) entry.getValue();
@@ -98,7 +95,6 @@ public class KafkaConsumer {
         List<Record> stream = neo4j.execute();
 
         stream.forEach(r -> {
-            //            System.out.println("\tRecord: " + r);
 
             System.out.println(r.get("t").asMap());
         });
