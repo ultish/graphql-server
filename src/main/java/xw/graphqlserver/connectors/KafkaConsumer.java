@@ -94,6 +94,8 @@ public class KafkaConsumer {
             //  relationship Types as it's now only using a highly inventive
             //  relationship Type called... "USES".
 
+            // TODO as noted above this does NOT perform DELETEs yet
+
             StringBuilder sb = new StringBuilder();
             sb.append("MERGE (n:" + meta.entityNameForNode() + " { id: " + meta.getId() + " }) ");
             sb.append("\nON CREATE SET ");
