@@ -1,19 +1,26 @@
 logging:
   level:
     root: INFO
+    org.springframework: INFO
+    graphql: DEBUG
 #    org.hibernate.SQL: DEBUG
 #    org.hibernate.type: TRACE
 
+kafka:
+  bootstrapAddress: "http://192.168.1.111:9092"
+  topic: "datastream"
+
+graphql:
+  url: "graphql"
+
+neo4j:
+  properties:
+    url: "neo4j://localhost:7687"
+    username: neo4j
+    password: test
+
 spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/jikanganai
-    driver: org.postgresql.Driver
-    username: postgres
-    password: password
-    name: jikanganai
-  jpa:
-    properties:
-      hibernate:
-        enable_lazy_load_no_trans: true
-        show_sql: true
-        format_sql: true
+  data:
+    neo4j:
+      username: neo4j
+      password: test
