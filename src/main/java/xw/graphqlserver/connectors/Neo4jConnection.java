@@ -32,6 +32,19 @@ public class Neo4jConnection {
         return driver;
     }
 
+    public List<Record> execute(String cypher) {
+        try (Session session = getDriver().session()) {
+            return session.writeTransaction(new TransactionWork<List<Record>>() {
+                @Override
+                public List<Record> execute(Transaction tx) {
+                    Result result = tx.run(cypher);
+
+                    return result.list();
+                }
+            });
+        }
+    }
+
     public List<Record> execute() {
         try (Session session = getDriver().session()) {
             return session.writeTransaction(new TransactionWork<List<Record>>() {

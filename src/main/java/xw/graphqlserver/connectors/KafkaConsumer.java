@@ -71,17 +71,72 @@ public class KafkaConsumer {
                         );
                     }
 
-                    // create relationship
                 } else {
-                    nodeProperties.put(entry.getKey(), entry.getValue());
+                    if (entry.getValue() instanceof Number) {
+                        nodeProperties.put(entry.getKey(), entry.getValue());
+                    } else {
+                        String val = null;
+                        if (entry.getValue() != null) {
+                            val = "'" + entry.getValue().toString() + "'";
+                        }
+                        nodeProperties.put(entry.getKey(), val);
+                    }
                 }
             });
 
-            System.out.println("MERGE NODE");
-            System.out.println(nodeProperties);
-            System.out.println("With Relationships...");
-            System.out.println(relationshipsForNode);
+            // TODO a pretty crude Cypher query that will create or update a
+            //  Node of label: entityName, and attach properties to it via
+            //  the 'nodeProperties' we gathered above. It will then go
+            //  through all the relationships detected for the entity and
+            //  generate MERGE statements that will create the destination
+            //  Node if it doesn't exist, then create a un-directed
+            //  relationship to it. This should be enhanced to have different
+            //  relationship Types as it's now only using a highly inventive
+            //  relationship Type called... "USES".
 
+            StringBuilder sb = new StringBuilder();
+            sb.append("MERGE (n:" + meta.entityNameForNode() + " { id: " + meta.getId() + " }) ");
+            sb.append("\nON CREATE SET ");
+            String nodeProps = nodeProperties.entrySet().stream()
+                .map(e -> "n." + e.getKey() + " = " + e.getValue())
+                .collect(Collectors.joining(", "));
+            sb.append(nodeProps);
+            sb.append("\nON MATCH SET ");
+            sb.append(nodeProps);
+
+            String rels = relationshipsForNode.entrySet()
+                .stream()
+                .map(e -> {
+                    String destNode = e.getKey().replaceAll("[.]", "_");
+                    int relIdx = 0;
+                    List<String> innerCyphers = new ArrayList<>();
+                    for (String relId : e.getValue()) {
+                        String d = destNode + (relIdx++);
+                        String result = "\nMERGE (" + d + ":" + destNode +
+                            " { " +
+                            "id: " + relId + " }) ";
+                        result += "\nMERGE (n)-[:USES]-(" + d + ") ";
+
+                        innerCyphers.add(result);
+                    }
+
+                    return innerCyphers.stream().collect(Collectors.joining());
+
+                })
+                .collect(Collectors.joining());
+            sb.append(rels);
+
+            sb.append("\nRETURN n");
+
+            System.out.println("Execute to Neo4j:\n" + sb.toString());
+
+            List<Record> stream = neo4j.execute(sb.toString());
+
+            stream.forEach(r -> {
+                // "n" as that's the return value of the cypher query above
+                System.out.println("id: " + r.get("n").asMap());
+
+            });
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
@@ -90,13 +145,5 @@ public class KafkaConsumer {
             .getId() + "] Received " +
             "Message: " + message);
 
-        System.out.println("Execute to Neo4j");
-
-        List<Record> stream = neo4j.execute();
-
-        stream.forEach(r -> {
-
-            System.out.println(r.get("t").asMap());
-        });
     }
 }

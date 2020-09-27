@@ -17,6 +17,10 @@ public class KafkaMetadata {
     int rev;
     RelationshipMetadata relationships;
 
+    public String entityNameForNode() {
+        return entityName.replaceAll("[.]", "_");
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o)
