@@ -9,8 +9,8 @@ type xw_legacyserver_entities_ChargeCode {
 type xw_legacyserver_entities_TrackedTask {
     id: ID!
     notes: String
-    chargeCodes: [xw_legacyserver_entities_ChargeCode] @relation(name:"CHARGED")
-    timeBlocks: [xw_legacyserver_entities_TimeBlock!] @relation(name:"SPENT")
+    chargeCodes: [xw_legacyserver_entities_ChargeCode] @relation(name:"USES")
+    timeBlocks: [xw_legacyserver_entities_TimeBlock!] @relation(name:"USES")
     createdAt: Float
     overtimeEnabled: Boolean
 }
